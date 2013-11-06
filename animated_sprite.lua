@@ -25,7 +25,7 @@ function AnimatedSprite:load()
 
 	for i = 1, self.frames do
 		local w = self.width * (i-1)
-		self.sprites[i] = love.graphics.newQuad(w, self.height, self.width, self.height, source:getWidth(), source:getHeight())
+		self.sprites[i] = love.graphics.newQuad(w, 0, self.width, self.height, source:getWidth(), source:getHeight())
 	end
 end
 
