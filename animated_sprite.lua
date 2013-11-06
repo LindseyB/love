@@ -6,11 +6,10 @@ function AnimatedSprite:create(file, width, height, frames)
 
 	setmetatable(object, AnimatedSprite)
 
-	object.file = file
 	object.width = width
 	object.height = height
 	object.frames = frames
-	object.sprite_sheet = sprite_sheet
+	object.sprite_sheet = love.graphics.newImage(file)
 	object.sprites = {}
 	object.current_frame = 1
 	object.delay = 0.1
@@ -20,12 +19,10 @@ function AnimatedSprite:create(file, width, height, frames)
 end
 
 function AnimatedSprite:load()
-	local source = love.graphics.newImage(self.file)
-	self.sprite_sheet = love.graphics.newImage(self.file)
-
 	for i = 1, self.frames do
+		-- TODO: add support for multiple animations
 		local w = self.width * (i-1)
-		self.sprites[i] = love.graphics.newQuad(w, 0, self.width, self.height, source:getWidth(), source:getHeight())
+		self.sprites[i] = love.graphics.newQuad(w, 0, self.width, self.height, self.sprite_sheet:getWidth(), self.sprite_sheet:getHeight())
 	end
 end
 
