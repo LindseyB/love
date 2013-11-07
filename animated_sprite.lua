@@ -12,9 +12,10 @@ function AnimatedSprite:create(file, width, height, frames)
 	object.sprite_sheet = love.graphics.newImage(file)
 	object.sprites = {}
 	object.current_frame = 1
-	object.delay = 0.1
+	object.delay = 0.05
 	object.delta = 0
 	object.animating = false
+	object.direction = 1
 
 	return object
 end
@@ -39,7 +40,7 @@ function AnimatedSprite:update(dt)
 end
 
 function AnimatedSprite:draw(x, y)
-	love.graphics.drawq(self.sprite_sheet, self.sprites[self.current_frame], x, y)
+	love.graphics.drawq(self.sprite_sheet, self.sprites[self.current_frame], x, y, 0, self.direction, 1)
 end
 
 function AnimatedSprite:set_animation(animating)
@@ -48,4 +49,8 @@ function AnimatedSprite:set_animation(animating)
 	if not animating then
 		self.current_frame = 1
 	end
+end
+
+function AnimatedSprite:set_direction(direction)
+	self.direction = direction
 end
