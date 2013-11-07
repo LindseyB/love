@@ -14,6 +14,7 @@ function AnimatedSprite:create(file, width, height, frames)
 	object.current_frame = 1
 	object.delay = 0.1
 	object.delta = 0
+	object.animating = false
 
 	return object
 end
@@ -27,14 +28,24 @@ function AnimatedSprite:load()
 end
 
 function AnimatedSprite:update(dt)
-	self.delta = self.delta + dt
+	if self.animating then
+		self.delta = self.delta + dt
 
-	if self.delta >= self.delay then
-		self.current_frame = (self.current_frame % self.frames) + 1
-		self.delta = 0
+		if self.delta >= self.delay then
+			self.current_frame = (self.current_frame % self.frames) + 1
+			self.delta = 0
+		end
 	end
 end
 
 function AnimatedSprite:draw(x, y)
 	love.graphics.drawq(self.sprite_sheet, self.sprites[self.current_frame], x, y)
+end
+
+function AnimatedSprite:set_animation(animating)
+	self.animating = animating
+
+	if not animating then
+		self.current_frame = 1
+	end
 end

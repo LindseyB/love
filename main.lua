@@ -15,10 +15,14 @@ function love.update(dt)
 
 	if love.keyboard.isDown("left") then
 		hero.x = hero.x - hero.speed * dt
+		animation:set_animation(true)
 	elseif love.keyboard.isDown("right") then
 		hero.x = hero.x + hero.speed*dt
+		animation:set_animation(true)
 	elseif love.keyboard.isDown("q") then
 		love.event.push('quit')
+	else
+		animation:set_animation(false)
 	end
 end
 
