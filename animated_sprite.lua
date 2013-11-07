@@ -16,6 +16,10 @@ function AnimatedSprite:create(file, width, height, frames)
 	object.delta = 0
 	object.animating = false
 	object.direction = 1
+	object.Directions = {
+		["Left"] = -1,
+		["Right"] = 1
+	}
 
 	return object
 end
