@@ -12,6 +12,7 @@ end
 function love.update(dt)
 	animation:update(dt)
 
+	-- todo: move all the hero movement to a different file to be called in this loop
 	if love.keyboard.isDown("left") then
 		hero.x = hero.x - hero.speed * dt
 		animation:set_animation_direction(animation.Directions.Left)
@@ -29,6 +30,12 @@ function love.update(dt)
 	else
 		animation:set_animation(false)
 	end
+
+	if hero.x > love.graphics.getWidth()-32 then hero.x = love.graphics.getWidth()-32 end
+	if hero.x < 0 then hero.x = 0 end
+
+	if hero.y > love.graphics.getHeight()-32 then hero.y = love.graphics.getHeight()-32 end
+	if hero.y < 0 then hero.y = 0 end
 end
 
 function love.draw()
