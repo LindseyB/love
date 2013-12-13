@@ -10,7 +10,7 @@ function Hero:create()
 
 	object.x = 300
 	object.y = 400
-	object.speed = 300
+	object.speed = 50
 	object.animation = AnimatedSprite:create("sprites/hero.png", 32, 32, 4, 4)
 
 	object.Directions = {
@@ -48,6 +48,7 @@ function Hero:move(direction, dt)
 		self.animation:set_animation_direction(self.animation.Directions.Up)
 	end
 
+	-- keep the hero on the screen
 	if hero.x > love.graphics.getWidth()-32 then hero.x = love.graphics.getWidth()-32 end
 	if hero.x < 0 then hero.x = 0 end
 
@@ -64,7 +65,5 @@ function Hero:draw()
 end
 
 function Hero:update(dt)
-	if(self.animaton) then
-		self.animation:update(dt)
-	end
+	self.animation:update(dt)
 end

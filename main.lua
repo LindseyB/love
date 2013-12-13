@@ -6,7 +6,7 @@ function love.load()
 end
 
 function love.update(dt)
-	Hero:update(dt)
+	hero:update(dt)
 
 	if love.keyboard.isDown("left") then
 		hero:move(hero.Directions.Left, dt)
@@ -24,6 +24,7 @@ function love.update(dt)
 end
 
 function love.draw()
+	love.graphics.setBackgroundColor(255,255,255)
 	love.graphics.setColor(255,255,255,255)
 	hero:draw()
 end
