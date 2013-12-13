@@ -29,7 +29,6 @@ end
 
 function AnimatedSprite:load()
 	for i = 1, self.animations do
-		-- TODO: add support for multiple animations
 		local h = self.height * (i-1)
 		self.sprites[i] = {}
 		for j = 1, self.animations do

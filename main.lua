@@ -8,7 +8,6 @@ end
 function love.update(dt)
 	Hero:update(dt)
 
-	-- todo: move all the hero movement to a different file to be called in this loop
 	if love.keyboard.isDown("left") then
 		hero:move(hero.Directions.Left, dt)
 	elseif love.keyboard.isDown("right") then
