@@ -1,7 +1,7 @@
 AnimatedSprite = {}
 AnimatedSprite.__index = AnimatedSprite
 
-function AnimatedSprite:create(file, width, height, frames)
+function AnimatedSprite:create(file, width, height, frames, animations)
 	local object = {}
 
 	setmetatable(object, AnimatedSprite)
@@ -9,26 +9,33 @@ function AnimatedSprite:create(file, width, height, frames)
 	object.width = width
 	object.height = height
 	object.frames = frames
+	object.animations = animations
 	object.sprite_sheet = love.graphics.newImage(file)
 	object.sprites = {}
 	object.current_frame = 1
+	object.current_animation = 1
 	object.delay = 0.08
 	object.delta = 0
 	object.animating = false
-	object.direction = 1
 	object.Directions = {
-		["Left"] = -1,
-		["Right"] = 1
+		["Down"] = 1,
+		["Left"] = 2,
+		["Right"] = 3,
+		["Up"] = 4
 	}
 
 	return object
 end
 
 function AnimatedSprite:load()
-	for i = 1, self.frames do
+	for i = 1, self.animations do
 		-- TODO: add support for multiple animations
-		local w = self.width * (i-1)
-		self.sprites[i] = love.graphics.newQuad(w, 0, self.width, self.height, self.sprite_sheet:getWidth(), self.sprite_sheet:getHeight())
+		local h = self.height * (i-1)
+		self.sprites[i] = {}
+		for j = 1, self.animations do
+			local w = self.width * (j-1)
+			self.sprites[i][j] = love.graphics.newQuad(w, h, self.width, self.height, self.sprite_sheet:getWidth(), self.sprite_sheet:getHeight())
+		end
 	end
 end
 
@@ -44,7 +51,7 @@ function AnimatedSprite:update(dt)
 end
 
 function AnimatedSprite:draw(x, y)
-	love.graphics.drawq(self.sprite_sheet, self.sprites[self.current_frame], x, y, 0, self.direction, 1)
+	love.graphics.drawq(self.sprite_sheet, self.sprites[self.current_animation][self.current_frame], x, y, 0, 1, 1)
 end
 
 function AnimatedSprite:set_animation(animating)
@@ -57,5 +64,5 @@ end
 
 function AnimatedSprite:set_animation_direction(direction)
 	self.animating = true
-	self.direction = direction
+	self.current_animation = direction
 end
