@@ -55,7 +55,7 @@ function AnimatedSprite:update(dt)
 end
 
 function AnimatedSprite:draw(x, y)
-	love.graphics.drawq(self.sprite_sheet, self.sprites[self.current_animation][self.current_frame], x, y, 0, 1, 1)
+	love.graphics.draw(self.sprite_sheet, self.sprites[self.current_animation][self.current_frame], x, y, 0, 1, 1)
 end
 
 function AnimatedSprite:set_animation(animating)
