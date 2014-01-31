@@ -20,18 +20,20 @@ function AnimatedSprite:create(file, width, height, frames, animations)
 	object.Directions = {
 		["Down"] = 1,
 		["Left"] = 2,
-		["Right"] = 3,
-		["Up"] = 4
+		["Right"] = 1,
+		["Up"] = 1
 	}
 
 	return object
 end
 
 function AnimatedSprite:load()
+	-- read in the walk animation
+
 	for i = 1, self.animations do
 		local h = self.height * (i-1)
 		self.sprites[i] = {}
-		for j = 1, self.animations do
+		for j = 1, self.frames do
 			local w = self.width * (j-1)
 			self.sprites[i][j] = love.graphics.newQuad(	w,
 														h,

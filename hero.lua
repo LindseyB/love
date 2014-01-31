@@ -9,19 +9,19 @@ function Hero:create()
 	setmetatable(object, Hero)
 
 	object.x = 300
-	object.y = love.graphics.getHeight()-32 
+	object.y = love.graphics.getHeight()-97
 	object.y_velocity = 0
 	object.speed = 50
-	object.animation = AnimatedSprite:create("sprites/hero.png", 32, 32, 4, 4)
-	object.gravity = 500
-	object.jump_height = 200
-	object.spite_size = 32
+	object.animation = AnimatedSprite:create("sprites/sheet.png", 72, 97, 11, 2)
+	object.gravity = 400
+	object.jump_height = 300
+	object.spite_size = 97
 
 	object.Directions = {
 		["Down"] = 1,
 		["Left"] = 2,
-		["Right"] = 3,
-		["Up"] = 4
+		["Right"] = 1,
+		["Up"] = 1
 	}
 
 	return object
