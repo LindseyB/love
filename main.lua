@@ -17,12 +17,33 @@ function love.load()
 	music:play()
 
 	background = love.graphics.newImage("sprites/background.jpg")
+	particle = love.graphics.newImage("sprites/star.png")
+	
+	-- fonts	
 	score_font = love.graphics.newImageFont("sprites/font.png", "0123456789")
 	game_over_font = love.graphics.newFont("fonts/orangejuice.ttf", 72)
 	game_over_font_small = love.graphics.newFont("fonts/orangejuice.ttf", 36)
 	score_dude = love.graphics.newImage("sprites/hud_p1Alt.png")
 
 	love.graphics.setFont(score_font)
+
+	-- lets try particles
+	system = love.graphics.newParticleSystem(particle, 10)
+	system:setEmissionRate(100)
+	system:setSpeed(300)
+	system:setLinearAcceleration(0,0,0,0)
+	system:setSizes(0.5)
+	system:setColors(255, 255, 255, 170)
+	system:setPosition(0, 0)
+	system:setEmitterLifetime(1)
+	system:setParticleLifetime(1,1)
+	system:setDirection(0)
+	system:setSpread(360)
+	system:setRadialAcceleration(-1000,-1000)
+	system:setTangentialAcceleration(1000,1000)
+	system:stop()
+	system_x = 0
+	system_y = 0
 end
 
 function love.update(dt)
@@ -32,6 +53,8 @@ function love.update(dt)
 		love.graphics.setFont(game_over_font)
 		game_over = true
 	end
+
+	system:update(dt)
 
 	if love.keyboard.isDown("left") then
 		hero:move(hero.Directions.Left, dt)
@@ -51,6 +74,9 @@ function love.update(dt)
 	end
 
 	if pickup:collide(hero.x, hero.y, hero.width, hero.height) then
+		system_x, system_y = pickup.x, pickup.y
+		system:stop()
+		system:start()
 		ting:stop()
 		ting:play()
 		score = score + 1
@@ -66,6 +92,7 @@ function love.draw()
 	if game_over then
 		drawGameover()
 	else
+		love.graphics.draw(system, system_x, system_y)
 		hero:draw()
 		pickup:draw()
 		drawScore()
