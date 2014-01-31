@@ -13,9 +13,10 @@ function love.update(dt)
 	elseif love.keyboard.isDown("right") then
 		hero:move(hero.Directions.Right, dt)
 	elseif love.keyboard.isDown("up") then
-		hero:move(hero.Directions.Up, dt)
+		hero:jump()
+		--hero:move(hero.Directions.Up, dt)
 	elseif love.keyboard.isDown("down") then
-		hero:move(hero.Directions.Down, dt)
+		--hero:move(hero.Directions.Down, dt)
 	elseif love.keyboard.isDown("q") then
 		love.event.push('quit')
 	else
