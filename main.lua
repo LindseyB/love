@@ -6,6 +6,8 @@ function love.load()
 	hero = Hero.create()
 	hero:load()
 
+	score = 0
+
 	-- sounds
 	pickup = PickUp:create("sprites/star.png", 70, 70, math.random(70, love.graphics.getWidth())-70, math.random(70, love.graphics.getHeight()-70))
 	music = love.audio.newSource("audio/looperman-l-0782612-0069158-40a-soundscape-drown.wav")
@@ -14,6 +16,9 @@ function love.load()
 	music:play()
 
 	background = love.graphics.newImage("sprites/background.jpg")
+	font = love.graphics.newImageFont("sprites/font.png", "0123456789")
+	score_dude = love.graphics.newImage("sprites/hud_p1Alt.png")
+	love.graphics.setFont(font)
 end
 
 function love.update(dt)
@@ -37,6 +42,7 @@ function love.update(dt)
 	if pickup:collide(hero.x, hero.y, hero.width, hero.height) then
 		ting:stop()
 		ting:play()
+		score = score + 1
 		pickup = PickUp:create("sprites/star.png", 70, 70, math.random(70, love.graphics.getWidth()-70), math.random(70, love.graphics.getHeight())-70)
 	end
 end
@@ -48,6 +54,8 @@ function love.draw()
 
 	hero:draw()
 	pickup:draw()
+
+	drawScore()
 end
 
 function drawBackground()
@@ -56,4 +64,9 @@ function drawBackground()
 			love.graphics.draw(background, (i-1)*background:getWidth(), (j-1)*background:getHeight())
 		end
 	end
+end
+
+function drawScore()
+	love.graphics.draw(score_dude, 10, 10)
+	love.graphics.print(score, 70, 15)
 end
