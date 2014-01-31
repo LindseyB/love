@@ -7,6 +7,7 @@ function love.load()
 	hero:load()
 
 	score = 0
+	game_over = false
 
 	-- sounds
 	pickup = PickUp:create("sprites/star.png", 70, 70, math.random(70, love.graphics.getWidth())-70, math.random(70, love.graphics.getHeight()-70))
@@ -16,13 +17,21 @@ function love.load()
 	music:play()
 
 	background = love.graphics.newImage("sprites/background.jpg")
-	font = love.graphics.newImageFont("sprites/font.png", "0123456789")
+	score_font = love.graphics.newImageFont("sprites/font.png", "0123456789")
+	game_over_font = love.graphics.newFont("fonts/orangejuice.ttf", 72)
+	game_over_font_small = love.graphics.newFont("fonts/orangejuice.ttf", 36)
 	score_dude = love.graphics.newImage("sprites/hud_p1Alt.png")
-	love.graphics.setFont(font)
+
+	love.graphics.setFont(score_font)
 end
 
 function love.update(dt)
 	hero:update(dt)
+
+	if hero:lose() then
+		love.graphics.setFont(game_over_font)
+		game_over = true
+	end
 
 	if love.keyboard.isDown("left") then
 		hero:move(hero.Directions.Left, dt)
@@ -35,6 +44,8 @@ function love.update(dt)
 		--hero:move(hero.Directions.Down, dt)
 	elseif love.keyboard.isDown("q") then
 		love.event.push('quit')
+	elseif love.keyboard.isDown("return") and game_over then
+		resetGame()
 	else
 		hero:stop()
 	end
@@ -52,10 +63,13 @@ function love.draw()
 	love.graphics.setColor(255,255,255,255)
 	drawBackground()
 
-	hero:draw()
-	pickup:draw()
-
-	drawScore()
+	if game_over then
+		drawGameover()
+	else
+		hero:draw()
+		pickup:draw()
+		drawScore()
+	end
 end
 
 function drawBackground()
@@ -69,4 +83,21 @@ end
 function drawScore()
 	love.graphics.draw(score_dude, 10, 10)
 	love.graphics.print(score, 70, 15)
+end
+
+function drawGameover()
+	love.graphics.setColor(255,255,255,255)
+	love.graphics.printf("Drifted Out to Space", 0, love.graphics.getHeight()/2, love.graphics.getWidth(), "center")
+	love.graphics.setFont(game_over_font_small)
+	love.graphics.printf("Final score: " .. score, 0, love.graphics.getHeight()/2 + game_over_font:getHeight(), love.graphics.getWidth(), "center")
+	love.graphics.printf("Press Enter to Play Again", 0, love.graphics.getHeight()/2 + game_over_font:getHeight() + game_over_font_small:getHeight(), love.graphics.getWidth(), "center")
+
+end
+
+function resetGame()
+	pickup = PickUp:create("sprites/star.png", 70, 70, math.random(70, love.graphics.getWidth())-70, math.random(70, love.graphics.getHeight()-70))
+	love.graphics.setFont(score_font)
+	score = 0
+	hero:reset()
+	game_over = false
 end
