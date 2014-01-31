@@ -50,7 +50,6 @@ function love.update(dt)
 	hero:update(dt)
 
 	if hero:lose() then
-		love.graphics.setFont(game_over_font)
 		game_over = true
 	end
 
@@ -113,6 +112,7 @@ function drawScore()
 end
 
 function drawGameover()
+	love.graphics.setFont(game_over_font)
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.printf("Drifted Out to Space", 0, love.graphics.getHeight()/2, love.graphics.getWidth(), "center")
 	love.graphics.setFont(game_over_font_small)
