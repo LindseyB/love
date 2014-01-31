@@ -6,11 +6,14 @@ function love.load()
 	hero = Hero.create()
 	hero:load()
 
+	-- sounds
 	pickup = PickUp:create("sprites/star.png", 70, 70, math.random(70, love.graphics.getWidth())-70, math.random(70, love.graphics.getHeight()-70))
 	music = love.audio.newSource("audio/looperman-l-0782612-0069158-40a-soundscape-drown.wav")
 	ting = love.audio.newSource("audio/196106__aiwha__ding.wav", "static")
 	music:setLooping(true)
 	music:play()
+
+	background = love.graphics.newImage("sprites/background.jpg")
 end
 
 function love.update(dt)
@@ -41,7 +44,16 @@ end
 function love.draw()
 	love.graphics.setBackgroundColor(0,0,0)
 	love.graphics.setColor(255,255,255,255)
-	hero:draw()
+	drawBackground()
 
+	hero:draw()
 	pickup:draw()
+end
+
+function drawBackground()
+	for i = 1, math.ceil(love.graphics.getWidth()/background:getWidth()) do
+		for j = 1, math.ceil(love.graphics.getHeight()/background:getHeight()) do
+			love.graphics.draw(background, (i-1)*background:getWidth(), (j-1)*background:getHeight())
+		end
+	end
 end
