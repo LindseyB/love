@@ -1,8 +1,12 @@
 require "hero"
+require "pick_up"
 
 function love.load()
+	math.randomseed(os.time())
 	hero = Hero.create()
 	hero:load()
+
+	pickup = PickUp:create("sprites/star.png", 70, 70, math.random(70, love.graphics.getWidth())-70, math.random(70, love.graphics.getHeight()-70))
 end
 
 function love.update(dt)
@@ -22,10 +26,16 @@ function love.update(dt)
 	else
 		hero:stop()
 	end
+
+	if pickup:collide(hero.x, hero.y, hero.width, hero.height) then
+		pickup = PickUp:create("sprites/star.png", 70, 70, math.random(70, love.graphics.getWidth()-70), math.random(70, love.graphics.getHeight())-70)
+	end
 end
 
 function love.draw()
-	love.graphics.setBackgroundColor(255,255,255)
+	love.graphics.setBackgroundColor(0,0,0)
 	love.graphics.setColor(255,255,255,255)
 	hero:draw()
+
+	pickup:draw()
 end

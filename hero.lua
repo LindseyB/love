@@ -13,9 +13,10 @@ function Hero:create()
 	object.y_velocity = 0
 	object.speed = 50
 	object.animation = AnimatedSprite:create("sprites/sheet.png", 72, 97, 11, 2)
-	object.gravity = 400
+	object.gravity = 200
 	object.jump_height = 300
-	object.spite_size = 97
+	object.width = object.animation.width
+	object.height = object.animation.height
 
 	object.Directions = {
 		["Down"] = 1,
@@ -52,18 +53,18 @@ function Hero:move(direction, dt)
 		self.animation:set_animation_direction(self.animation.Directions.Up)
 	end
 
-	-- keep the hero on the screen
-	if hero.x > love.graphics.getWidth() - hero.spite_size then hero.x = love.graphics.getWidth() - hero.spite_size end
-	if hero.x < 0 then hero.x = 0 end
+	-- keep the self on the screen
+	if self.x > love.graphics.getWidth() - self.width then self.x = love.graphics.getWidth() - self.width end
+	if self.x < 0 then self.x = 0 end
 
-	if hero.y > love.graphics.getHeight() - hero.spite_size then hero.y = love.graphics.getHeight() - hero.spite_size end
-	if hero.y < 0 then hero.y = 0 end
+	if self.y > love.graphics.getHeight() - self.height then self.y = love.graphics.getHeight() - self.height end
+	if self.y < 0 then self.y = 0 end
 end
 
 function Hero:jump()
-	if hero.y_velocity == 0 then
-		hero.y_velocity = hero.jump_height
-	end
+	--if self.y_velocity == 0 then
+	self.y_velocity = self.jump_height
+	--end
 end
 
 function Hero:stop()
@@ -78,11 +79,11 @@ function Hero:update(dt)
 	self.animation:update(dt)
 
 	-- handle jump
-	if hero.y_velocity ~= 0 then
-		hero.y = hero.y - hero.y_velocity * dt
-		hero.y_velocity = hero.y_velocity - hero.gravity * dt
-		if hero.y > love.graphics.getHeight() - hero.spite_size then
-			hero.y_velocity = 0
+	if self.y_velocity ~= 0 then
+		self.y = self.y - self.y_velocity * dt
+		self.y_velocity = self.y_velocity - self.gravity * dt
+		if self.y > love.graphics.getHeight() - self.height then
+			self.y_velocity = 0
 		end
 	end
 end
