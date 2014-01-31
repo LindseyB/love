@@ -7,6 +7,10 @@ function love.load()
 	hero:load()
 
 	pickup = PickUp:create("sprites/star.png", 70, 70, math.random(70, love.graphics.getWidth())-70, math.random(70, love.graphics.getHeight()-70))
+	music = love.audio.newSource("audio/looperman-l-0782612-0069158-40a-soundscape-drown.wav")
+	ting = love.audio.newSource("audio/196106__aiwha__ding.wav", "static")
+	music:setLooping(true)
+	music:play()
 end
 
 function love.update(dt)
@@ -28,6 +32,8 @@ function love.update(dt)
 	end
 
 	if pickup:collide(hero.x, hero.y, hero.width, hero.height) then
+		ting:stop()
+		ting:play()
 		pickup = PickUp:create("sprites/star.png", 70, 70, math.random(70, love.graphics.getWidth()-70), math.random(70, love.graphics.getHeight())-70)
 	end
 end
